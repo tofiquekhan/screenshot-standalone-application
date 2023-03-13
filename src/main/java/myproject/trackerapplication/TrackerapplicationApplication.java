@@ -7,21 +7,27 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 @SpringBootApplication
+@EnableScheduling
 @Slf4j
 public class TrackerapplicationApplication {
 
+    @Scheduled(initialDelay = 2000,fixedDelay = 3000)
     public static void screenShot(){
         try {
             String format = "jpg";
-            String fileName = "FullScreenshot." + format;
+            String fileName = "FullScreenshot"+ LocalDateTime.now().toString().replaceAll("[-:.]","")+ "." + format;
+            System.out.println(fileName);
             Robot robot = new Robot();
             Rectangle screenRect = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
             BufferedImage screenFullImage = robot.createScreenCapture(screenRect);
